@@ -4,13 +4,15 @@ An enhanced visual builder for Gradio with Avada-like capabilities, featuring dr
 
 ## 🌟 Features
 
-### Enhanced from Gradio Sketch
-- ✅ **Drag-and-Drop Interface** - Intuitive component placement (coming soon)
-- ✅ **Template Library** - Pre-built layouts for common ML use cases (coming soon)
-- ✅ **Advanced Styling Controls** - Visual controls for colors, spacing, and themes (coming soon)
-- ✅ **Real-time Preview** - See changes instantly as you build (coming soon)
-- ✅ **Component Themes** - Pre-styled component sets (coming soon)
-- ✅ **Responsive Design Tools** - Test different screen sizes (coming soon)
+### ✨ Enhanced from Gradio Sketch
+- ✅ **Enhanced Parameter Controls** - Color pickers, sliders, toggles instead of text inputs
+- ✅ **Auto-Browser-Open** - Browser opens automatically when you start the app
+- ✅ **Desktop Shortcuts** - One-click launch from desktop or start menu
+- ✅ **Automated UI Testing** - Comprehensive Playwright tests for quality assurance
+- 🚧 **Drag-and-Drop Interface** - Intuitive component placement (coming soon)
+- 🚧 **Template Library** - Pre-built layouts for common ML use cases (coming soon)
+- 🚧 **Real-time Preview** - See changes instantly as you build (coming soon)
+- 🚧 **Component Themes** - Pre-styled component sets (coming soon)
 
 ### From Original Gradio Sketch
 - ✅ Visual component editing
@@ -33,10 +35,19 @@ cd Gradio_Layout_Visualizer
 pip install -e .
 ```
 
+### Create Desktop Shortcuts (Recommended)
+
+```bash
+# One-time setup - creates desktop and start menu shortcuts
+gradio-visualizer --install-shortcuts
+
+# After setup, just double-click the desktop icon to launch!
+```
+
 ### Usage
 
 ```bash
-# Start the visual builder
+# Start the visual builder (browser opens automatically!)
 gradio-visualizer
 
 # Or specify a custom app file
@@ -45,8 +56,24 @@ gradio-visualizer my_app.py
 # Share publicly
 gradio-visualizer --share
 
+# Disable auto-browser-open if needed
+gradio-visualizer --no-browser
+
 # Custom port
 gradio-visualizer --port 8080
+```
+
+### Run Tests
+
+```bash
+# Run automated UI tests
+python run_tests.py
+
+# Run specific tests
+pytest tests/test_ui_enhanced_controls.py
+
+# Watch tests run in browser
+pytest tests/ --headed
 ```
 
 ## 📚 Documentation

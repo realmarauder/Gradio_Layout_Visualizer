@@ -24,4 +24,8 @@ if __name__ == "__main__":
     print("\n🚀 Starting demo...\n")
 
     demo = create(app_file, config_file)
-    demo.launch(share=False)
+    demo.launch(
+        share=False,
+        inbrowser=True,  # Auto-open browser for convenience
+        quiet=False,
+    )

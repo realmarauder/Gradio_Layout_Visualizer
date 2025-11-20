@@ -8,6 +8,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
+#### 🚀 Automation Features (Phase 1B)
+- **Auto-Browser-Open** - Browser automatically opens when visualizer starts
+  - Enabled by default for local development
+  - `--no-browser` flag to disable
+  - `inbrowser=True` parameter in launch()
+  - Saves 5-10 seconds per session
+
+- **Desktop Shortcuts Installer** - One-click launch from desktop/start menu
+  - Cross-platform support (Windows, macOS, Linux)
+  - `--install-shortcuts` CLI command
+  - Standalone installer module
+  - Automatic Python executable detection
+  - Creates desktop and start menu entries
+
+- **Automated UI Testing with Playwright** - Comprehensive test suite
+  - Test suite for enhanced controls
+  - Responsive design tests (mobile, tablet, desktop)
+  - Accessibility tests (keyboard navigation, ARIA labels)
+  - Cross-browser compatibility
+  - CI/CD ready
+  - Test runner script (`run_tests.py`)
+  - pytest configuration
+
+#### ✨ Enhanced Parameter Controls (Phase 1A)
 - **Enhanced Parameter Controls** - Major UX improvement over original Gradio Sketch
   - Color picker for color parameters (e.g., `color`, `bg_color`, `border_color`)
   - Toggle switches for boolean parameters (e.g., `visible`, `interactive`, `show_label`)
@@ -21,15 +46,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - `test_visualizer.py` - Test script to launch the enhanced visualizer
   - Example apps in `examples/` directory
   - Example README with usage instructions
+  - `tests/` directory with Playwright UI tests
+  - `conftest.py` - Pytest fixtures and server management
+  - `pytest.ini` - Pytest configuration
+  - `run_tests.py` - Test runner with browser installation
 
 - **Documentation**
   - Comprehensive ROADMAP.md with 12-week enhancement plan
   - Enhanced README with features and quick start guide
   - Examples documentation
+  - `docs/ENHANCED_CONTROLS.md` - Detailed guide for parameter controls
+  - `docs/AUTOMATION_FEATURES.md` - Complete automation documentation
 
 ### Changed
 - Updated parameter configuration UI message from generic Python syntax to "Enhanced Controls"
 - Import paths updated to use `gradio_layout_visualizer` package instead of `gradio.sketch`
+- CLI now auto-opens browser by default (can be disabled with `--no-browser`)
+- Test script and examples now auto-open browser for better UX
+- README updated with automation features prominently displayed
+- requirements.txt updated with testing and desktop integration dependencies
 
 ### Technical Details
 - New module: `enhanced_controls.py` with smart parameter detection

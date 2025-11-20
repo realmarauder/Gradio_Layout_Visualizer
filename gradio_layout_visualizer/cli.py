@@ -31,8 +31,24 @@ def main():
         default=7860,
         help="Port to run the server on (default: 7860)",
     )
+    parser.add_argument(
+        "--install-shortcuts",
+        action="store_true",
+        help="Install desktop shortcuts and exit",
+    )
+    parser.add_argument(
+        "--no-browser",
+        action="store_true",
+        help="Don't automatically open browser",
+    )
 
     args = parser.parse_args()
+
+    # Handle shortcut installation
+    if args.install_shortcuts:
+        from gradio_layout_visualizer.install_shortcuts import create_shortcuts
+        create_shortcuts()
+        return
 
     # Ensure file paths are absolute
     app_file = os.path.abspath(args.file)
@@ -42,8 +58,16 @@ def main():
     print(f"📝 App file: {app_file}")
     print(f"⚙️  Config file: {config_file}")
 
+    # Auto-open browser unless disabled
+    inbrowser = not args.no_browser
+
     demo = create(app_file, config_file)
-    demo.launch(share=args.share, server_port=args.port)
+    demo.launch(
+        share=args.share,
+        server_port=args.port,
+        inbrowser=inbrowser,  # Automatically open browser
+        quiet=False,  # Show startup messages
+    )
 
 
 if __name__ == "__main__":

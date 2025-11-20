@@ -16,4 +16,4 @@ with gr.Blocks() as demo:
     def respond(message):
         return [[message, "This is a response"]]
 
-demo.launch()
+demo.launch(inbrowser=True)  # Auto-open browser
