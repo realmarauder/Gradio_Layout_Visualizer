@@ -7,8 +7,13 @@ import huggingface_hub as hub
 
 import gradio as gr
 import gradio.utils
-from gradio.sketch.sketchbox import SketchBox
-from gradio.sketch.utils import ai, get_header, set_kwarg
+from gradio_layout_visualizer.sketch.sketchbox import SketchBox
+from gradio_layout_visualizer.sketch.utils import ai, get_header, set_kwarg
+from gradio_layout_visualizer.sketch.enhanced_controls import (
+    get_param_type_info,
+    create_enhanced_control,
+    format_value_for_storage,
+)
 
 
 def create(app_file: str, config_file: str):
@@ -250,7 +255,7 @@ def create(app_file: str, config_file: str):
                     )
 
                     gr.Markdown(
-                        'Set args below with python syntax, e.g. `True`, `5`, or `["choice1", "choice2"]`.'
+                        '✨ **Enhanced Controls** - Use visual controls for easier configuration.'
                     )
 
                     component = get_component_by_name(component_name)
@@ -261,19 +266,27 @@ def create(app_file: str, config_file: str):
                         if arg in nonconfigurable_params:
                             continue
                         arg_value = kwargs.get(arg, "")
-                        arg_box = gr.Textbox(
-                            arg_value,
-                            label=arg,
-                            info=f"<a href='https://www.gradio.app/docs/gradio/{component_name.lower()}#param-{component_name.lower()}-{arg.lower().replace('_', '-')}' target='_blank'>docs</a>",
+
+                        # Get parameter type info and create enhanced control
+                        param_info = get_param_type_info(component, arg)
+                        control_type = param_info["control_type"]
+                        arg_box = create_enhanced_control(
+                            arg, param_info, arg_value, component_name
                         )
 
-                        def set_arg(value, arg=arg):
-                            set_kwarg(_components[_modify_id][1], arg, value)
+                        def set_arg(value, arg=arg, ctrl_type=control_type):
+                            # Format the value appropriately based on control type
+                            formatted_value = format_value_for_storage(value, ctrl_type)
+                            set_kwarg(_components[_modify_id][1], arg, formatted_value)
                             return _components
 
-                        gr.on(
-                            [arg_box.blur, arg_box.submit], set_arg, arg_box, components
-                        )
+                        # Use appropriate event based on control type
+                        if control_type in ("toggle", "color", "dropdown"):
+                            arg_box.change(set_arg, arg_box, components)
+                        else:
+                            gr.on(
+                                [arg_box.blur, arg_box.submit], set_arg, arg_box, components
+                            )
                 if _mode == "modify_function":
                     dep = _dependencies[_modify_id]
                     _triggers, _inputs, _outputs, var_name, _history, _code = dep
